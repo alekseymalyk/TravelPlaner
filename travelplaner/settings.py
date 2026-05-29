@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'drf_spectacular',
+
+    'travel',
 ]
 
 MIDDLEWARE = [
@@ -115,3 +121,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Django REST Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Travel Planner API',
+    'DESCRIPTION': 'Plan trips and collect places to visit from the Art Institute of Chicago.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
+
+# Art Institute of Chicago API (https://api.artic.edu/docs/)
+
+ARTIC_API_BASE_URL = os.environ.get('ARTIC_API_BASE_URL', 'https://api.artic.edu/api/v1')
+ARTIC_API_TIMEOUT = float(os.environ.get('ARTIC_API_TIMEOUT', '10'))
+
+# Max number of places allowed per project (business rule).
+MAX_PLACES_PER_PROJECT = 10
