@@ -11,3 +11,5 @@ services:
       - ARTIC_API_TIMEOUT=10
     volumes:
       - .:/app
+      # Keep the container's own virtualenv; don't let the host's .venv shadow it.
+      - /app/.venv
